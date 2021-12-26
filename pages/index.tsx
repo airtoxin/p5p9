@@ -1,4 +1,4 @@
-import type { NextPage } from 'next'
+import type { NextPage } from "next";
 import { Sketch } from "../components/Sketch";
 import P5 from "p5";
 
@@ -17,6 +17,6 @@ const Home: NextPage = () => {
   };
 
   return <Sketch setup={setup} draw={draw} />;
-}
+};
 
-export default Home
+export default Home;

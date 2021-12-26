@@ -5,7 +5,7 @@ export type Props = {
   setup: (p5: P5, parent: HTMLDivElement) => void;
   draw: (p5: P5) => void;
 };
-const Sketch: VoidFunctionComponent<Props> = ({setup, draw}) => {
+const Sketch: VoidFunctionComponent<Props> = ({ setup, draw }) => {
   const canvasParentRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const sketch = new P5((p: P5) => {
@@ -24,10 +24,13 @@ const Sketch: VoidFunctionComponent<Props> = ({setup, draw}) => {
       style={{
         width: "100vw",
         height: "100vh",
-        display: "flex", justifyContent: "center", alignItems: "center" }}
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
       ref={canvasParentRef}
     />
   );
-}
+};
 
 export default Sketch;

@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { Sketch } from "../components/Sketch";
+import { Sketch } from "../../components/Sketch";
 import P5 from "p5";
 
 const range = (n: number) => Array.from(Array(n)).map((_, i) => i);

@@ -2,7 +2,7 @@ import { useEffect, useRef, VoidFunctionComponent } from "react";
 import P5 from "p5";
 
 export type Props = {
-  setup: (p5: P5, parent: HTMLDivElement) => void;
+  setup: (p5: P5) => void;
   draw: (p5: P5) => void;
 };
 const Sketch: VoidFunctionComponent<Props> = ({ setup, draw }) => {
@@ -11,7 +11,10 @@ const Sketch: VoidFunctionComponent<Props> = ({ setup, draw }) => {
     const sketch = new P5((p: P5) => {
       p.setup = () => {
         if (canvasParentRef.current != null) {
-          setup(p, canvasParentRef.current);
+          p.createCanvas(800 * Math.sqrt(2), 800).parent(
+            canvasParentRef.current
+          );
+          setup(p);
         }
       };
       p.draw = () => draw(p);

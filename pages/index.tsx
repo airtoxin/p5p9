@@ -7,7 +7,7 @@ const Home: NextPage = () => {
   const y = 50;
 
   const setup = (p5: P5, canvasParentRef: Element) => {
-    p5.createCanvas(500, 500).parent(canvasParentRef);
+    p5.createCanvas(800 * Math.sqrt(2), 800).parent(canvasParentRef);
   };
 
   const draw = (p5: P5) => {

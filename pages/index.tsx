@@ -11,7 +11,6 @@ const Home: NextPage = () => {
   };
 
   const draw = (p5: P5) => {
-    p5.background(0);
     p5.ellipse(x, y, 70, 70);
     x++;
   };

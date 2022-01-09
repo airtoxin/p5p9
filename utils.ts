@@ -135,4 +135,11 @@ export class P5Utils {
     );
     return this.p.color(r, g, b, a);
   }
+
+  drawFrame(frameWeight: number): void {
+    this.p.rect(0, 0, this.p.width, frameWeight);
+    this.p.rect(0, 0, frameWeight, this.p.height);
+    this.p.rect(0, this.p.height - frameWeight, this.p.width, frameWeight);
+    this.p.rect(this.p.width - frameWeight, 0, frameWeight, this.p.height);
+  }
 }

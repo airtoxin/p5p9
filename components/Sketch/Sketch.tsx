@@ -5,8 +5,9 @@ import { P5Utils } from "../../utils";
 export type Props = {
   setup: (p5: P5, utils: P5Utils) => void;
   draw: (p5: P5, utils: P5Utils) => void;
+  webgl?: true;
 };
-const Sketch: VoidFunctionComponent<Props> = ({ setup, draw }) => {
+const Sketch: VoidFunctionComponent<Props> = ({ setup, draw, webgl }) => {
   const utilRef = useRef<P5Utils | null>(null);
   const canvasParentRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -14,9 +15,11 @@ const Sketch: VoidFunctionComponent<Props> = ({ setup, draw }) => {
       utilRef.current = new P5Utils(p);
       p.setup = () => {
         if (canvasParentRef.current != null) {
-          p.createCanvas(800 * Math.sqrt(2), 800).parent(
-            canvasParentRef.current
-          );
+          p.createCanvas(
+            800 * Math.sqrt(2),
+            800,
+            webgl ? p.WEBGL : undefined
+          ).parent(canvasParentRef.current);
           if (utilRef.current) setup(p, utilRef.current);
         }
       };

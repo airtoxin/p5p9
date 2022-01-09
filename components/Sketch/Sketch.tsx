@@ -1,23 +1,28 @@
 import { useEffect, useRef, VoidFunctionComponent } from "react";
 import P5 from "p5";
+import { P5Utils } from "../../utils";
 
 export type Props = {
-  setup: (p5: P5) => void;
-  draw: (p5: P5) => void;
+  setup: (p5: P5, utils: P5Utils) => void;
+  draw: (p5: P5, utils: P5Utils) => void;
 };
 const Sketch: VoidFunctionComponent<Props> = ({ setup, draw }) => {
+  const utilRef = useRef<P5Utils | null>(null);
   const canvasParentRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const sketch = new P5((p: P5) => {
+      utilRef.current = new P5Utils(p);
       p.setup = () => {
         if (canvasParentRef.current != null) {
           p.createCanvas(800 * Math.sqrt(2), 800).parent(
             canvasParentRef.current
           );
-          setup(p);
+          if (utilRef.current) setup(p, utilRef.current);
         }
       };
-      p.draw = () => draw(p);
+      p.draw = () => {
+        if (utilRef.current) draw(p, utilRef.current);
+      };
     });
     return () => sketch.remove();
   }, [draw, setup]);

@@ -45,6 +45,44 @@ export class P5Utils {
     );
   }
 
+  getGrid3d(
+    canvasWidth: number,
+    canvasHeight: number,
+    canvasDepth: number,
+    gridSize: number
+  ): Grid[][][] {
+    const xOffset = (canvasWidth % gridSize) / 2;
+    const yOffset = (canvasHeight % gridSize) / 2;
+    const zOffset = (canvasDepth % gridSize) / 2;
+
+    return this.seq(Math.floor(canvasDepth / gridSize)).map((zLine) =>
+      this.seq(Math.floor(canvasHeight / gridSize)).map((yLine) =>
+        this.seq(Math.floor(canvasWidth / gridSize)).map((xLine) => {
+          const start = this.p.createVector(
+            xOffset + xLine * gridSize,
+            yOffset + yLine * gridSize,
+            zOffset + zLine * gridSize
+          );
+          const center = this.p.createVector(
+            start.x + gridSize / 2,
+            start.y + gridSize / 2,
+            start.z + gridSize / 2
+          );
+          const end = this.p.createVector(
+            start.x + gridSize,
+            start.y + gridSize,
+            start.z + gridSize
+          );
+          return {
+            start,
+            center,
+            end,
+          };
+        })
+      )
+    );
+  }
+
   enumerate<T>(items: T[]): [T, number][] {
     return items.map((item, i) => [item, i]);
   }

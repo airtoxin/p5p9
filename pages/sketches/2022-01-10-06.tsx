@@ -8,7 +8,7 @@ const SketchPage: NextPage = () => {
   const noiseScale = 0.01;
   const radius = 80;
   const drawingFrameCountOfEdge = 60;
-  const drawTimes = 3;
+  const drawTimes = 5;
   const hexagons: HandDrawHexagon[] = [];
   const setup = (p5: P5, utils: P5Utils) => {
     p5.background(255, 255, 255);

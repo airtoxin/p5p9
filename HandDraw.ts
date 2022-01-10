@@ -185,10 +185,10 @@ export class HandDrawHexagon {
 
     const pv1 = this.utils
       .rotateVector(this.positionDiffBase, Math.PI / 2)
-      .mult(this.p5.random(0, 0.4));
+      .mult(this.p5.random(0, 0.1));
     const pv2 = this.utils
       .rotateVector(this.positionDiffBase, -Math.PI / 2)
-      .mult(this.p5.random(0, 0.4));
+      .mult(this.p5.random(0, 0.1));
     const perpendicularVector = this.p5.createVector(
       this.p5.random(pv1.x, pv2.x),
       this.p5.random(pv1.y, pv2.y)

@@ -145,25 +145,72 @@ export class HandDrawCircle {
 }
 
 export class HandDrawHexagon {
+  private counts = 0;
+  private position: P5.Vector;
+  private readonly positionDiffBase: P5.Vector;
   constructor(
     private readonly p5: P5,
     private readonly utils: P5Utils,
     private readonly center: P5.Vector,
-    private readonly radius: number
-  ) {}
+    private readonly radius: number,
+    private readonly drawFrameCountsOfEdge: number,
+    private readonly times: number = 1
+  ) {
+    this.position = p5.createVector(0, this.radius);
+    this.positionDiffBase = p5
+      .createVector((Math.sqrt(3) / 2) * this.radius, -this.radius / 2)
+      .div(drawFrameCountsOfEdge);
+  }
 
   draw() {
+    this.counts++;
+    if (this.counts >= this.drawFrameCountsOfEdge * 6 * this.times) return;
+
     this.p5.push();
     this.p5.translate(this.center);
-    for (const i of this.utils.seq(6)) {
-      this.p5.line(
+
+    const rotation =
+      Math.floor(this.counts / this.drawFrameCountsOfEdge) * (Math.PI / 3);
+
+    const pv1 = this.utils
+      .rotateVector(this.positionDiffBase, Math.PI / 2)
+      .mult(this.p5.random(0, 0.4));
+    const pv2 = this.utils
+      .rotateVector(this.positionDiffBase, -Math.PI / 2)
+      .mult(this.p5.random(0, 0.4));
+    const perpendicularVector = this.p5.createVector(
+      this.p5.random(pv1.x, pv2.x),
+      this.p5.random(pv1.y, pv2.y)
+    );
+    const diff = this.positionDiffBase
+      .copy()
+      .mult(this.p5.random(0.8, 1.2))
+      .add(perpendicularVector);
+
+    const nextPosition = this.position
+      .copy()
+      .add(this.utils.rotateVector(diff, -rotation));
+
+    this.p5.strokeWeight(
+      this.p5.map(
+        this.p5.noise(
+          this.position.x / noiseScale,
+          this.position.y / noiseScale
+        ),
         0,
-        -this.radius,
-        (Math.sqrt(3) * this.radius) / 2,
-        -this.radius / 2
-      );
-      this.p5.rotate(Math.PI / 3);
-    }
+        1,
+        1,
+        3
+      )
+    );
+    this.p5.line(
+      this.position.x,
+      this.position.y,
+      nextPosition.x,
+      nextPosition.y
+    );
+    this.position = nextPosition;
+
     this.p5.pop();
   }
 }

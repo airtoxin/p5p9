@@ -212,4 +212,11 @@ export class P5Utils {
     this.p.rect(0, this.p.height - frameWeight, this.p.width, frameWeight);
     this.p.rect(this.p.width - frameWeight, 0, frameWeight, this.p.height);
   }
+
+  rotateVector(vector: P5.Vector, radians: number): P5.Vector {
+    return this.p.createVector(
+      Math.cos(radians) * vector.x - Math.sin(radians) * vector.y,
+      Math.sin(radians) * vector.x + Math.cos(radians) * vector.y
+    );
+  }
 }

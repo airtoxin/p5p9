@@ -143,3 +143,27 @@ export class HandDrawCircle {
       .add(this.center);
   }
 }
+
+export class HandDrawHexagon {
+  constructor(
+    private readonly p5: P5,
+    private readonly utils: P5Utils,
+    private readonly center: P5.Vector,
+    private readonly radius: number
+  ) {}
+
+  draw() {
+    this.p5.push();
+    this.p5.translate(this.center);
+    for (const i of this.utils.seq(6)) {
+      this.p5.line(
+        0,
+        -this.radius,
+        (Math.sqrt(3) * this.radius) / 2,
+        -this.radius / 2
+      );
+      this.p5.rotate(Math.PI / 3);
+    }
+    this.p5.pop();
+  }
+}

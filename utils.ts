@@ -7,6 +7,11 @@ export type Grid = {
   rowCol: P5.Vector;
 };
 
+export type GridHex = {
+  center: P5.Vector;
+  rowCol: P5.Vector;
+};
+
 export class P5Utils {
   constructor(private p: P5) {}
 
@@ -49,6 +54,64 @@ export class P5Utils {
         };
       })
     );
+  }
+
+  getHexagonGrid(
+    radius: number,
+    canvasSize: P5.Vector,
+    margin: P5.Vector
+  ): GridHex[] {
+    const results: GridHex[] = [];
+
+    const canvas = canvasSize.copy().sub(margin).sub(margin);
+
+    const yRowPairs = Math.floor((canvas.y - 2 * radius) / (3 * radius));
+    const yRows = yRowPairs * 2 + 1;
+    const xCols = Math.floor(canvas.x / (Math.sqrt(3) * radius));
+    for (const y of this.seq(yRows)) {
+      for (const x of this.seq(y % 2 === 1 ? xCols - 1 : xCols)) {
+        const center = this.p
+          .createVector(
+            x * Math.sqrt(3) * radius,
+            y * 2 * radius - (y * radius) / 2
+          )
+          .add(margin)
+          .add(this.p.createVector((Math.sqrt(3) / 2) * radius, radius))
+          .add(
+            y % 2 === 1
+              ? this.p.createVector((Math.sqrt(3) / 2) * radius, 0)
+              : this.p.createVector()
+          );
+        const rowCol = this.p.createVector(x, y);
+        results.push({ center, rowCol });
+      }
+    }
+
+    return results;
+  }
+
+  private getGridPoint(
+    offsetX: number,
+    offsetY: number,
+    size: number,
+    gridX: number,
+    gridY: number
+  ): GridHex {
+    const rowCol = this.p.createVector(gridX, gridY);
+    const height = size * 2;
+    const width = size * Math.sqrt(3);
+    const diffXFromY = (gridY * width) / 2;
+    const gridPointX = gridX * width + diffXFromY;
+    const gridPointY = gridY * height * 0.75;
+
+    const x = gridPointX + offsetX;
+    const y = gridPointY + offsetY;
+    const center = this.p.createVector(x, y);
+
+    return {
+      center,
+      rowCol,
+    };
   }
 
   getGrid3d(

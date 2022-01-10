@@ -1,6 +1,11 @@
 import P5 from "p5";
 
-export type Grid = { start: P5.Vector; center: P5.Vector; end: P5.Vector };
+export type Grid = {
+  start: P5.Vector;
+  center: P5.Vector;
+  end: P5.Vector;
+  rowCol: P5.Vector;
+};
 
 export class P5Utils {
   constructor(private p: P5) {}
@@ -25,8 +30,8 @@ export class P5Utils {
     const xOffset = (canvasWidth % gridSize) / 2;
     const yOffset = (canvasHeight % gridSize) / 2;
 
-    return this.seq(Math.floor(canvasHeight / gridSize)).map((yLine) =>
-      this.seq(Math.floor(canvasWidth / gridSize)).map((xLine) => {
+    return this.seq(Math.floor(canvasHeight / gridSize)).map((yLine, yi) =>
+      this.seq(Math.floor(canvasWidth / gridSize)).map((xLine, xi) => {
         const start = this.p.createVector(
           xOffset + xLine * gridSize,
           yOffset + yLine * gridSize
@@ -40,6 +45,7 @@ export class P5Utils {
           start,
           center,
           end,
+          rowCol: this.p.createVector(xi, yi),
         };
       })
     );
@@ -55,9 +61,9 @@ export class P5Utils {
     const yOffset = (canvasHeight % gridSize) / 2;
     const zOffset = (canvasDepth % gridSize) / 2;
 
-    return this.seq(Math.floor(canvasDepth / gridSize)).map((zLine) =>
-      this.seq(Math.floor(canvasHeight / gridSize)).map((yLine) =>
-        this.seq(Math.floor(canvasWidth / gridSize)).map((xLine) => {
+    return this.seq(Math.floor(canvasDepth / gridSize)).map((zLine, zi) =>
+      this.seq(Math.floor(canvasHeight / gridSize)).map((yLine, yi) =>
+        this.seq(Math.floor(canvasWidth / gridSize)).map((xLine, xi) => {
           const start = this.p.createVector(
             xOffset + xLine * gridSize,
             yOffset + yLine * gridSize,
@@ -77,6 +83,7 @@ export class P5Utils {
             start,
             center,
             end,
+            rowCol: this.p.createVector(xi, yi, zi),
           };
         })
       )

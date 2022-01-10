@@ -2,18 +2,9 @@ import { NextPage } from "next";
 import { Sketch } from "../../components/Sketch";
 import P5 from "p5";
 import { P5Utils } from "../../utils";
-import { Calendar } from "calendar";
-import { HandDrawCircle, HandDrawText } from "../../HandDraw";
-
-type CalendarDay = {
-  position: P5.Vector;
-  day: number;
-  color: string;
-  circle: HandDrawCircle;
-};
+import { HandDrawText } from "../../HandDraw";
 
 const SketchPage: NextPage = () => {
-  const calendar = new Calendar();
   let text: HandDrawText;
   const setup = (p5: P5, utils: P5Utils) => {
     p5.background(255);

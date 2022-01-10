@@ -32,7 +32,7 @@ const SketchPage: NextPage = () => {
           return utils
             .seq(Math.floor(maxDiameter / 30) + 1, maxDiameter, -30)
             .flatMap((randomRadius) =>
-              p5.random() < 0.5
+              p5.random() < 0.3
                 ? []
                 : [
                     new HandDrawHexagon(
@@ -41,7 +41,8 @@ const SketchPage: NextPage = () => {
                       grid.center,
                       randomRadius,
                       drawingFrameCountOfEdge,
-                      drawTimes
+                      drawTimes,
+                      Math.floor(p5.random(0, drawingFrameCountOfEdge * 6))
                     ),
                   ]
             );

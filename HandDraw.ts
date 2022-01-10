@@ -154,12 +154,20 @@ export class HandDrawHexagon {
     private readonly center: P5.Vector,
     private readonly radius: number,
     private readonly drawFrameCountsOfEdge: number,
-    private readonly times: number = 1
+    private readonly times: number = 1,
+    private readonly startOffset: number = 0
   ) {
     this.position = p5.createVector(0, this.radius);
     this.positionDiffBase = p5
       .createVector((Math.sqrt(3) / 2) * this.radius, -this.radius / 2)
       .div(drawFrameCountsOfEdge);
+    for (const i of utils.seq(startOffset)) {
+      const rotation =
+        Math.floor(i / this.drawFrameCountsOfEdge) * (Math.PI / 3);
+      this.position.add(
+        this.utils.rotateVector(this.positionDiffBase, -rotation)
+      );
+    }
   }
 
   draw() {
@@ -170,7 +178,10 @@ export class HandDrawHexagon {
     this.p5.translate(this.center);
 
     const rotation =
-      Math.floor(this.counts / this.drawFrameCountsOfEdge) * (Math.PI / 3);
+      Math.floor(
+        (this.startOffset + this.counts) / this.drawFrameCountsOfEdge
+      ) *
+      (Math.PI / 3);
 
     const pv1 = this.utils
       .rotateVector(this.positionDiffBase, Math.PI / 2)

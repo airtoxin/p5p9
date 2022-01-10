@@ -62,7 +62,6 @@ export class HexPoint {
       return {
         center,
         rowCol,
-        vertexes: this.hexCorners(oType, center, size),
       };
     } else if (oType === "flat") {
       const width = size * 2;
@@ -79,7 +78,6 @@ export class HexPoint {
       return {
         center,
         rowCol,
-        vertexes: this.hexCorners(oType, center, size),
       };
     } else {
       throw new Error(`Invalid hex type: ${oType}`);

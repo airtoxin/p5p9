@@ -68,6 +68,11 @@ export class P5Utils {
     const yRowPairs = Math.floor((canvas.y - 2 * radius) / (3 * radius));
     const yRows = yRowPairs * 2 + 1;
     const xCols = Math.floor(canvas.x / (Math.sqrt(3) * radius));
+
+    const width = xCols * Math.sqrt(3) * radius;
+    const height = 2 * radius + 3 * yRowPairs * radius;
+    const offset = canvasSize.copy().sub(width, height).div(2);
+
     for (const y of this.seq(yRows)) {
       for (const x of this.seq(y % 2 === 1 ? xCols - 1 : xCols)) {
         const center = this.p
@@ -75,7 +80,7 @@ export class P5Utils {
             x * Math.sqrt(3) * radius,
             y * 2 * radius - (y * radius) / 2
           )
-          .add(margin)
+          .add(offset)
           .add(this.p.createVector((Math.sqrt(3) / 2) * radius, radius))
           .add(
             y % 2 === 1

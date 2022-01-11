@@ -225,3 +225,83 @@ export class HandDrawHexagon {
     this.p5.pop();
   }
 }
+
+export class HandDrawLine {
+  private counts = 0;
+  private position: P5.Vector;
+  private readonly positionDiffBase: P5.Vector;
+  constructor(
+    private readonly p5: P5,
+    private readonly utils: P5Utils,
+    private readonly from: P5.Vector,
+    private readonly to: P5.Vector,
+    private readonly drawFrameCounts: number,
+    private readonly times: number = 1
+  ) {
+    this.positionDiffBase = to.copy().sub(from).div(drawFrameCounts);
+    this.position = this.getInitialPosition();
+  }
+
+  draw() {
+    this.counts++;
+    if (this.counts >= this.drawFrameCounts * this.times) return;
+
+    this.p5.push();
+    const nextPosition = this.getNextPosition();
+    this.p5.line(
+      this.position.x,
+      this.position.y,
+      nextPosition.x,
+      nextPosition.y
+    );
+    this.p5.pop();
+    this.position = nextPosition;
+  }
+
+  private getInitialPosition(): P5.Vector {
+    const pos = this.from.copy();
+    for (const i of this.utils.seq(Math.floor(this.drawFrameCounts / 2))) {
+      const pv1 = this.positionDiffBase.copy().mult(this.p5.random(0, 0.1));
+      const pv2 = this.utils
+        .rotateVector(this.positionDiffBase.copy(), Math.PI)
+        .mult(this.p5.random(0, 0.1));
+      const pv = this.utils.randomVector(pv1, pv2, pos);
+      const vv1 = this.utils
+        .rotateVector(this.positionDiffBase, Math.PI / 2)
+        .mult(this.p5.random(0, 0.1));
+      const vv2 = this.utils
+        .rotateVector(this.positionDiffBase, -Math.PI / 2)
+        .mult(this.p5.random(0, 0.1));
+      const vv = this.utils.randomVector(vv1, vv2, pos);
+      pos.add(pv).add(vv);
+    }
+    return pos;
+  }
+
+  private getNextPosition(): P5.Vector {
+    const vv1 = this.utils
+      .rotateVector(this.positionDiffBase, Math.PI / 2)
+      .mult(this.p5.random(0, 0.1));
+    const vv2 = this.utils
+      .rotateVector(this.positionDiffBase, -Math.PI / 2)
+      .mult(this.p5.random(0, 0.1));
+    const vv = this.utils.randomVector(vv1, vv2, this.position);
+    const diff = this.positionDiffBase
+      .copy()
+      .div(
+        this.p5.map(
+          this.p5.noise(
+            this.position.x / noiseScale,
+            this.position.y / noiseScale,
+            noiseScale * 3
+          ),
+          0,
+          1,
+          0.8,
+          1.2
+        )
+      )
+      .add(vv);
+    return this.position.copy().add(diff);
+  }
+}

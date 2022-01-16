@@ -223,6 +223,15 @@ export class P5Utils {
     this.p5.rect(this.p5.width - frameWeight, 0, frameWeight, this.p5.height);
   }
 
+  drawSquareFrame(squareSize: number): void {
+    const w = (this.p5.width - squareSize) / 2;
+    const h = (this.p5.height - squareSize) / 2;
+    this.p5.rect(0, 0, this.p5.width, h);
+    this.p5.rect(0, 0, w, this.p5.height);
+    this.p5.rect(0, this.p5.height - h, this.p5.width, h);
+    this.p5.rect(this.p5.width - w, 0, w, this.p5.height);
+  }
+
   rotateVector(vector: P5.Vector, radians: number): P5.Vector {
     return this.p5.createVector(
       Math.cos(radians) * vector.x - Math.sin(radians) * vector.y,

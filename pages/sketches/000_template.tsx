@@ -2,7 +2,6 @@ import { NextPage } from "next";
 import { Sketch } from "../../components/Sketch";
 import P5 from "p5";
 import { P5Utils } from "../../utils";
-import { HandDrawLine } from "../../HandDraw";
 
 const SketchPage: NextPage = () => {
   const setup = (p5: P5, utils: P5Utils) => {
@@ -16,6 +15,7 @@ const SketchPage: NextPage = () => {
   };
 
   const draw = (p5: P5, utils: P5Utils) => {};
+
   return <Sketch setup={setup} draw={draw} />;
 };
 

@@ -34,7 +34,7 @@ const SketchPage: NextPage = () => {
       const x = i % Math.floor(w);
       const y = Math.floor(i / w);
 
-      p5.stroke(height);
+      p5.stroke(p5.lerpColor(p5.color("#4158D0"), p5.color("#FFCC70"), p5.map(height, 0, 255, 0, 1)));
       p5.point(x, y);
 
       const x1 = (w + x + 1) % w;

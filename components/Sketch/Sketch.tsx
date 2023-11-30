@@ -6,8 +6,9 @@ export type Props = {
   setup: (p5: P5, utils: P5Utils) => void;
   draw: (p5: P5, utils: P5Utils) => void;
   webgl?: true;
+  size?: [number, number];
 };
-const Sketch: VoidFunctionComponent<Props> = ({ setup, draw, webgl }) => {
+const Sketch: VoidFunctionComponent<Props> = ({ setup, draw, webgl, size }) => {
   const utilRef = useRef<P5Utils | null>(null);
   const canvasParentRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -16,8 +17,8 @@ const Sketch: VoidFunctionComponent<Props> = ({ setup, draw, webgl }) => {
       p.setup = () => {
         if (canvasParentRef.current != null) {
           p.createCanvas(
-            800 * Math.sqrt(2),
-            800,
+            size != null ? size[0] : 800 * Math.sqrt(2),
+            size != null ? size[1] : 800,
             webgl ? p.WEBGL : undefined
           ).parent(canvasParentRef.current);
           if (utilRef.current) setup(p, utilRef.current);
